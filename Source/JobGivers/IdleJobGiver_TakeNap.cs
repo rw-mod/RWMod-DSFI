@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
+﻿using RimWorld;
 using Verse;
 using Verse.AI;
-using RimWorld;
 
 namespace DSFI.JobGivers
 {
@@ -28,7 +23,7 @@ namespace DSFI.JobGivers
             {
                 return null;
             }
-            
+
             float dayP = GenLocalDate.DayPercent(pawn.Map);
             if (dayP < 0.42f && dayP > 0.7f)
             {
