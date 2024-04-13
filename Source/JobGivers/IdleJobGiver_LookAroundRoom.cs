@@ -52,6 +52,12 @@ namespace DSFI.JobGivers
                 Pawn owner = roomOwners.RandomElement();
                 IntVec3 position = IntVec3.Invalid;
 
+                // skip if room owner is sleeping in bed
+                if (owner.Map == pawn.Map && (owner.jobs?.curDriver?.asleep ?? false) && owner.GetRoom() == owner.ownership?.OwnedRoom)
+                {
+                    return null;
+                }
+
                 Room room = owner.ownership.OwnedRoom;
                 if (room.Cells.Where(x => x.Standable(map) && !x.IsForbidden(pawn) && pawn.CanReserveAndReach(x, PathEndMode.OnCell, Danger.None)).TryRandomElement(out position))
                 {

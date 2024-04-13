@@ -4,9 +4,15 @@ using Verse;
 namespace DSFI
 {
     [DefOf]
+    public static class IdleJobGiverDefOf
+    {
+        public static IdleJobGiverDef IdleJobGiver_Wander;
+    }
+
+    [DefOf]
     public static class IdleJobDefOf
     {
-        public static JobDef IdleJob_TakeNap;
+        public static JobDef IdleJob_TakeBreakTime;
         public static JobDef IdleJob_MendItem;
         public static JobDef IdleJob_ObservingAnimal;
         public static JobDef IdleJob_MessingAround;
@@ -23,6 +29,7 @@ namespace DSFI
     public static class MoreTraitDefOf
     {
         public static TraitDef QuickSleeper;
+        public static TraitDef Neurotic;
     }
 
     [DefOf]
@@ -35,5 +42,18 @@ namespace DSFI
     public static class DSFIThingDefOf
     {
         public static ThingDef DSFI_Scribbling;
+    }
+
+    [DefOf]
+    public static class DSFIRoomRoleDefOf
+    {
+        public static RoomRoleDef DiningRoom;
+        public static RoomRoleDef RecRoom;
+    }
+
+    [DefOf]
+    public static class DSFIRenderSkipFlagDefOf
+    {
+        public static RenderSkipFlagDef Body;
     }
 }

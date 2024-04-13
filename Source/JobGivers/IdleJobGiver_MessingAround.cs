@@ -17,7 +17,7 @@ namespace DSFI.JobGivers
                                           select x)
             {
                 Room room = building.Position.GetRoom(pawn.Map);
-                if (room != null && (room.Role == RoomRoleDefOf.DiningRoom || room.Role == RoomRoleDefOf.RecRoom))
+                if (room != null && (room.Role == DSFIRoomRoleDefOf.DiningRoom || room.Role == DSFIRoomRoleDefOf.RecRoom))
                 {
                     return new Job(IdleJobDefOf.IdleJob_MessingAround, building)
                     {

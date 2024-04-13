@@ -44,6 +44,6 @@ namespace DSFI.Jobs
         }
         
         private const float moveDistance = 2f;
-        private const float lookDistance = 6f;
+        private const float lookDistance = 8f;
     }
 }

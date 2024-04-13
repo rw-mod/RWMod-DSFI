@@ -6,16 +6,74 @@ using Verse.AI;
 
 namespace DSFI.Jobs
 {
-    public class IdleJobDriver_TakeNap : IdleJobDriver
+    public class IdleJobDriver_TakeBreakTime : IdleJobDriver
     {
+        public int jobFinishGameTick;
+
+        public override void ExposeData()
+        {
+            base.ExposeData();
+
+            Scribe_Values.Look(ref jobFinishGameTick, "jobFinishGameTick");
+        }
+
+        public Building Sittable
+        {
+            get
+            {
+                return (Building)job.GetTarget(TargetIndex.A).Thing;
+            }
+        }
+
         public override bool TryMakePreToilReservations(bool errorOnFailed)
         {
-            throw new System.NotImplementedException();
+            if (!pawn.Reserve(Sittable, job, 1))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         protected override IEnumerable<Toil> MakeNewToils()
         {
-            throw new System.NotImplementedException();
+            this.FailOnDestroyedNullOrForbidden(TargetIndex.A);
+
+            yield return Toils_Goto.GotoCell(TargetIndex.A, PathEndMode.OnCell);
+
+            yield return Toils_General.DoAtomic(() =>
+            {
+                jobFinishGameTick = GenTicks.TicksGame + (int)((1.0f - pawn.needs.rest.CurLevelPercentage) * Rand.Range(1000, 1200));
+            });
+
+            var breakTime = ToilMaker.MakeToil("BreakTime");
+            breakTime.socialMode = RandomSocialMode.Normal;
+            breakTime.defaultCompleteMode = ToilCompleteMode.Never;
+            breakTime.handlingFacing = true;
+            breakTime.initAction = () =>
+            {
+                var actor = breakTime.actor;
+                actor.pather?.StopDead();
+                actor.Rotation = TargetThingA.Rotation;
+            };
+            breakTime.tickAction = () =>
+            {
+                var actor = breakTime.actor;
+                var job = actor.CurJob;
+                var jobDriver = actor.jobs.curDriver;
+
+                if (GenTicks.TicksGame >= jobFinishGameTick)
+                {
+                    pawn.jobs.curDriver.EndJobWith(JobCondition.Succeeded);
+                }
+                else
+                {
+                    actor.GainComfortFromCellIfPossible(true);
+                    actor.needs.rest.TickResting(0.01f);
+                }
+            };
+
+            yield return breakTime;
         }
     }
     //{

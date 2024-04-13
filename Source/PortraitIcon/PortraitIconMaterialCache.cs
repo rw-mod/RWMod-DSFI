@@ -6,6 +6,8 @@ namespace DSFI
 {
     public static class PortraitIconMaterialCache
     {
+        public static bool isDrawing = false;
+
         public static Material MatFrom(Pawn pawn, Color color)
         {
 #if DEBUG
@@ -23,13 +25,22 @@ namespace DSFI
             {
                 if (!_texDict.TryGetValue(pawn, out Texture tex))
                 {
-                    tex = new RenderTexture(128, 128, 0)
+                    tex = new RenderTexture(256, 256, 0)
                     {
                         filterMode = FilterMode.Bilinear,
                     };
 
-                    Find.PawnCacheRenderer.RenderPawn(pawn, (RenderTexture)tex, new Vector3(0f, 0f, 0.2f), 1f, 0f, Rot4.South, 
-                        renderHead: true, renderBody: false, renderHeadgear: true, renderClothes: false, portrait: true);
+                    try
+                    {
+                        isDrawing = true;
+
+                        Find.PawnCacheRenderer.RenderPawn(pawn, (RenderTexture)tex, new Vector3(0f, 0f, 0.2f), 1f, 0f, Rot4.South,
+                            renderHead: true, renderHeadgear: true, renderClothes: false, portrait: true);
+                    }
+                    finally
+                    {
+                        isDrawing = false;
+                    }
 
                     _texDict.Add(pawn, tex);
                 }

@@ -25,8 +25,12 @@ namespace DSFI.Jobs
                 Zone_Growing zone = this.TargetA.Cell.GetZone(this.Map) as Zone_Growing;
                 Thing thing = null;
 
-                if (zone == null || !zone.AllContainedThings.Where(x => x is Plant && !x.HostileTo(this.pawn) && !x.IsForbidden(this.pawn) &&
-                    !((Plant)x).HarvestableNow && this.pawn.CanReserveAndReach(x, PathEndMode.Touch, Danger.None) && !listChecked.Contains(x.Position)).TryRandomElement(out thing))
+                if (zone == null || !zone.AllContainedThings.Where(x => x is Plant plant &&
+                    plant.IsCrop &&
+                    !plant.HarvestableNow &&
+                    !x.HostileTo(this.pawn) && 
+                    !x.IsForbidden(this.pawn) &&
+                    this.pawn.CanReserveAndReach(x, PathEndMode.Touch, Danger.None) && !listChecked.Contains(x.Position)).TryRandomElement(out thing))
                 {
                     this.job.SetTarget(TargetIndex.A, LocalTargetInfo.Invalid);
                 }

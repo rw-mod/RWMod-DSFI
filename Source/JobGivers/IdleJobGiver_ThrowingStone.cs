@@ -6,17 +6,6 @@ namespace DSFI.JobGivers
 {
     public class IdleJobGiver_ThrowingStone : IdleJobGiver<IdleJobGiverDef>
     {
-        public override float GetWeight(Pawn pawn, Trait traitIndustriousness)
-        {
-            float multiplier = 1f;
-            if (pawn.story.traits.HasTrait(TraitDefOf.ShootingAccuracy))
-            {
-                multiplier *= 1.5f;
-            }
-            
-            return base.GetWeight(pawn, traitIndustriousness) * multiplier;
-        }
-        
         public override Job TryGiveJob(Pawn pawn)
         {
             if (!JoyUtility.EnjoyableOutsideNow(pawn.Map))

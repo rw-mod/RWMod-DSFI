@@ -19,7 +19,7 @@ namespace DSFI.Jobs
         {
             yield return Toils_Goto.GotoCell(TargetIndex.B, PathEndMode.OnCell);
 
-            Toil throwing = Toils_General.Wait(2000, TargetIndex.A);
+            Toil throwing = Toils_General.Wait(1500, TargetIndex.A);
             throwing.socialMode = RandomSocialMode.Normal;
             throwing.FailOn(() => !JoyUtility.EnjoyableOutsideNow(this.pawn, null) || this.TargetB.Cell.IsForbidden(this.pawn));
             throwing.handlingFacing = true;
@@ -30,7 +30,7 @@ namespace DSFI.Jobs
 
             throwing.tickAction = () =>
             {
-                if (this.pawn.IsHashIntervalTick(400))
+                if (this.pawn.IsHashIntervalTick(300))
                 {
                     pawn.skills.Learn(SkillDefOf.Shooting, 5f);
                     FleckMaker.ThrowStone(pawn, TargetLocA);

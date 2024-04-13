@@ -8,7 +8,7 @@ namespace DSFI.JobGivers
     {
         public override float GetWeight(Pawn pawn, Trait traitIndustriousness)
         {
-            return base.GetWeight(pawn, traitIndustriousness) * modSettings.wanderMultiplier;
+            return base.GetWeight(pawn, traitIndustriousness);
         }
 
         public override Job TryGiveJob(Pawn pawn)

@@ -17,7 +17,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Build|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\Mod\v1.4\Assemblies\</OutputPath>
+    <OutputPath>..\Mod\v1.5\Assemblies\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,12 +55,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIUtility.cs" />
-    <Compile Include="CompGraffitiDecay.cs" />
-    <Compile Include="Graphic_Scribbling.cs" />
-    <Compile Include="IdleJobUtility.cs" />
+    <Compile Include="HarmonyPatches.cs" />
+    <Compile Include="Utility\AIUtility.cs" />
+    <Compile Include="Graffiti\CompGraffitiDecay.cs" />
+    <Compile Include="Graffiti\Graphic_Scribbling.cs" />
+    <Compile Include="Utility\IdleJobUtility.cs" />
     <Compile Include="PortraitIcon\PortraitIconMaterialCache.cs" />
-    <Compile Include="RTMoteBubble.cs" />
+    <Compile Include="Thinking\RTMoteBubble.cs" />
     <Compile Include="Jobs\IdleJobDef.cs" />
     <Compile Include="JobGivers\IdleJobGiver.cs" />
     <Compile Include="JobGivers\IdleJobGiverDef.cs" />
@@ -75,7 +76,7 @@
     <Compile Include="JobGivers\IdleJobGiver_MessingAround.cs" />
     <Compile Include="JobGivers\IdleJobGiver_ObservingAnimal.cs" />
     <Compile Include="JobGivers\IdleJobGiver_WatchDoing.cs" />
-    <Compile Include="JobGivers\IdleJobGiver_TakeNap.cs" />
+    <Compile Include="JobGivers\IdleJobGiver_TakeBreakTime.cs" />
     <Compile Include="JobGivers\IdleJobGiver_Wander.cs" />
     <Compile Include="DefOf.cs" />
     <Compile Include="Jobs\IdleJobDriver.cs" />
@@ -88,7 +89,7 @@
     <Compile Include="Jobs\IdleJobDriver_LookAroundRoom.cs" />
     <Compile Include="Jobs\IdleJobDriver_MessingAround.cs" />
     <Compile Include="Jobs\IdleJobDriver_ObservingAnimal.cs" />
-    <Compile Include="Jobs\IdleJobDriver_TakeNap.cs" />
+    <Compile Include="Jobs\IdleJobDriver_TakeBreakTime.cs" />
     <Compile Include="Jobs\IdleJobDriver_WatchDoing.cs" />
     <Compile Include="Jobs\IdleJobDriver_MendItem.cs" />
     <Compile Include="Settings.cs" />

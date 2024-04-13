@@ -8,7 +8,6 @@ namespace DSFI.JobGivers
 {
     public class IdleJobGiver_ObservingAnimal : IdleJobGiver<IdleJobGiverDef>
     {
-        static HashSet<Pawn> pawns = new HashSet<Pawn>();
         public override Job TryGiveJob(Pawn pawn)
         {
             if (!JoyUtility.EnjoyableOutsideNow(pawn.Map))
@@ -16,27 +15,18 @@ namespace DSFI.JobGivers
                 return null;
             }
 
-            pawns.Clear();
-            foreach (Thing thing in GenRadial.RadialDistinctThingsAround(pawn.Position, pawn.Map, this.def.searchDistance, true))
+            var animal = GenClosest.ClosestThingReachable(
+                pawn.Position,
+                pawn.Map,
+                ThingRequest.ForGroup(ThingRequestGroup.Pawn),
+                PathEndMode.Touch,
+                TraverseParms.For(pawn, Danger.None),
+                searchRegionsMax: 20,
+                validator: (thing) => thing is Pawn p && p.AnimalOrWildMan() && !p.HostileTo(pawn) && Rand.Bool);
+
+            if (animal != null)
             {
-                Pawn targetPawn = thing as Pawn;
-                if (targetPawn == null || !targetPawn.RaceProps.Animal)
-                {
-                    continue;
-                }
-
-                if (targetPawn.HostileTo(pawn))
-                {
-                    continue;
-                }
-
-                pawns.Add(targetPawn);
-            }
-
-            if (pawns.Any())
-            {
-                Pawn target = pawns.RandomElement();
-                return new Job(IdleJobDefOf.IdleJob_ObservingAnimal, target)
+                return new Job(IdleJobDefOf.IdleJob_ObservingAnimal, animal)
                 {
                     locomotionUrgency = modSettings.wanderMovePolicy
                 };

@@ -18,6 +18,14 @@ namespace DSFI
         {
             if (this.def != null)
             {
+                if (modSettings.idleJobActivated != null)
+                {
+                    if (modSettings.idleJobActivated.TryGetValue(def.defName, out var activated) && !activated)
+                    {
+                        return 0f;
+                    }
+                }
+
                 if ((pawn.story.DisabledWorkTagsBackstoryAndTraits & this.def.workTagsRequirement) != 0)
                 {
                     return 0f;

@@ -12,9 +12,9 @@ namespace DSFI
             iconMat = PortraitIconMaterialCache.MatFrom(pawn, Color.white);
         }
 
-        public override void Draw()
+        protected override void DrawAt(Vector3 drawLoc, bool flip = false)
         {
-            base.Draw();
+            base.DrawAt(drawLoc, flip);
             if (motePawn != null && iconMat != null)
             {
                 Vector3 drawPos = DrawPos;
@@ -32,7 +32,7 @@ namespace DSFI
                 {
                     material = PortraitIconMaterialCache.MatFrom(motePawn, instanceColor);
                 }
-                
+
                 Vector3 s = new Vector3(def.graphicData.drawSize.x, 1f, def.graphicData.drawSize.y);
                 Matrix4x4 matrix = default(Matrix4x4);
                 matrix.SetTRS(drawPos, Quaternion.identity, s);

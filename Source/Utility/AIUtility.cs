@@ -1,4 +1,5 @@
-﻿using RimWorld;
+﻿using HarmonyLib;
+using RimWorld;
 using System.Collections.Generic;
 using System.Linq;
 using Verse;
@@ -117,6 +118,42 @@ namespace DSFI
             {
                 return IntVec3.Invalid;
             }
+        }
+
+        private static void TraverseNearPassableRegionRecursive(HashSet<Region> set, Region r, int n)
+        {
+            if (n <= 0) { return; }
+            foreach (var t in r.Neighbors)
+            {
+                set.Add(t);
+                TraverseNearPassableRegionRecursive(set, t, n - 1);
+            }
+        }
+
+        private static void TraverseNearPassableDistrictRecursive(HashSet<District> set, District v, int n)
+        {
+            if (n <= 0) { return; }
+            foreach (var t in v.Neighbors)
+            {
+                set.Add(t);
+                TraverseNearPassableDistrictRecursive(set, t, n - 1);
+            }
+        }
+
+        public static IEnumerable<Thing> FindThingsFromNearPassableRegions(Pawn pawn, int depth = 3)
+        {
+            var originalRegion = pawn.GetRegion();
+            if (originalRegion == null) { return Enumerable.Empty<Thing>(); }
+
+            var allTargetRegions = new HashSet<Region>() { originalRegion };
+            TraverseNearPassableRegionRecursive(allTargetRegions, originalRegion, depth);
+
+#if DEBUG
+            Log.Message($"FindThingsFromNearPassableRegions origin: {originalRegion} nears: {string.Join(",", allTargetRegions.Select(v => v.ToString()))}");
+#endif
+
+            var allThings = allTargetRegions.SelectMany(v => v.ListerThings.AllThings);
+            return allThings;
         }
     }
 }

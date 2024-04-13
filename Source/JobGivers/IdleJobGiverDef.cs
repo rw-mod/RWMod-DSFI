@@ -18,11 +18,6 @@ namespace DSFI
         public List<SkillDef> relatedSkillPassion = new List<SkillDef>();
     }
 
-    public class IdleJobGiverDef_TakeNap : IdleJobGiverDef
-    {
-        public float restRequirement;
-    }
-
     public class IdleJobGiverDef_WatchDoing : IdleJobGiverDef
     {
         public JobDef jobDef;
